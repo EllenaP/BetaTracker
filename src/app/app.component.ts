@@ -11,15 +11,11 @@ import {JsonTestPage} from "../pages/json-test/json-test";
   templateUrl: 'app.html'
 })
 export class MyApp {
-  // tabsPage = TabsPage;
-  supplyChainManagementPage = SupplyChainManagementPage;
-  contactPage = ContactPage;
-  jsonPage = JsonTestPage;
   @ViewChild('nav') nav: NavController;
 
   rootPage = TabsPage;
 
-  pages: Array<{ title: string, component: any }>;
+  pages: Array<{ title: string, component: any, index: number }>;
 
   constructor(platform: Platform,
               statusBar: StatusBar,
@@ -29,17 +25,11 @@ export class MyApp {
 
 
     this.pages = [
-      {title: 'Tracking', component: TabsPage},
-      {title: 'Supply Chain Management', component: SupplyChainManagementPage},
-      {title: 'Contact', component: ContactPage},
-      {title: 'JSON', component: JsonTestPage}
+      {title: 'Tracking', component: TabsPage, index: 0},
+      {title: 'Supply Chain Management', component: TabsPage, index: 1},
+      {title: 'Contact', component: TabsPage, index: 2},
+      {title: 'JSON', component: TabsPage, index: 3}
     ];
-
-
-    // openPage(page)
-    // {
-    //   this.nav.setRoot(page.component);
-    // }
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -49,9 +39,8 @@ export class MyApp {
     });
   }
 
-  onLoad(page) {
-    this.nav.setRoot(page.component);
-    this.menuCtrl.close()
+  openPage(page) {
+    this.nav.setRoot(page.component, {index: page.index});
   }
 }
 
