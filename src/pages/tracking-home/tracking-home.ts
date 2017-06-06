@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {JsonTestPage} from "../json-test/json-test";
 
-/**
- * Generated class for the TrackingHomePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-tracking-home',
@@ -14,11 +9,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TrackingHomePage {
 
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TrackingHomePage');
+  }
+
+  onSchedule() {
+    this.navCtrl.push(JsonTestPage);
   }
 
 }

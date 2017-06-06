@@ -11,6 +11,7 @@ import {SupplyChainManagementPage} from "../pages/supply-chain-management/supply
 import {TabsPage} from "../pages/tabs/tabs";
 import {TrackingDetailPage} from "../pages/tracking-detail/tracking-detail";
 import {TrackingHomePage} from "../pages/tracking-home/tracking-home";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {TrackingHomePage} from "../pages/tracking-home/tracking-home";
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -39,6 +41,7 @@ import {TrackingHomePage} from "../pages/tracking-home/tracking-home";
   providers: [
     StatusBar,
     SplashScreen,
+    HttpModule,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

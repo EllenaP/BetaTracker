@@ -3,9 +3,7 @@ import {MenuController, NavController, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {TabsPage} from "../pages/tabs/tabs";
-import {SupplyChainManagementPage} from "../pages/supply-chain-management/supply-chain-management";
-import {ContactPage} from "../pages/contact/contact";
-import {JsonTestPage} from "../pages/json-test/json-test";
+
 
 @Component({
   templateUrl: 'app.html'
@@ -42,6 +40,10 @@ export class MyApp {
   openPage(page) {
     this.nav.setRoot(page.component, {index: page.index});
   }
+  // onLoad(page) {
+  //   this.nav.setRoot(page.component);
+  //   this.menuCtrl.close()
+  // }
 }
 
 
