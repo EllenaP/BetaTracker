@@ -1,20 +1,108 @@
 <ion-header>
   <ion-navbar>
-
     <!-- Menu button-->
     <ion-buttons start>
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-
     </ion-buttons>
-
     <ion-title>JSON Testing Page</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
+
+    <ion-segment [(ngModel)]="status" color="warrantColour">
+      <ion-segment-button value="On Schedule" color="balanced">
+        On Schedule
+      </ion-segment-button>
+      <ion-segment-button value="Alerts">
+        Alerts
+      </ion-segment-button>
+      <ion-segment-button value="Late Shipment">
+        Late Shipment
+      </ion-segment-button>
+    </ion-segment>
+
+<br/>
+
+    <div [ngSwitch]="status">
+      <ion-list *ngSwitchCase="'On Schedule'">
+        <ion-item text-wrap>
+          <ion-thumbnail item-start>
+            <img src="assets/img/Delivered.png">
+          </ion-thumbnail>
+          <h2><strong>{{response.container_number}}</strong></h2>
+          <p>
+            <!--<strong> Container Number: </strong>  {{ response.container_number }}-->
+            <!--<br/>-->
+            <strong> Equipment Type: </strong> {{ response.equipment_type.name }}, {{ response.equipment_type.code }}
+            <br/>
+            <strong> Latest Event: </strong> {{ response.latest_event }}
+            <br/>
+            <strong> ETA: </strong> {{ response.dates.vessel_arrived?.eta }}
+            <br/>
+            <strong> ATA: </strong> {{ response.dates.vessel_arrived?.ata }} </p>
+        </ion-item>
+      </ion-list>
+    </div>
+
+<br/>
+  <!--<ion-list>-->
+    <!--<ion-list-header>-->
+      <!--Ionic 2 Accordion Example.-->
+    <!--</ion-list-header>-->
+    <!--<ion-item padding color="balanced" *ngFor="let d of data" (click)="toggleDetails(d)"><ion-icon color="primary" item-right [name]="d.icon"></ion-icon>-->
+      <!--{{d.title}}-->
+      <!--<div *ngIf="d.showDetails">{{d.details}}</div>-->
+    <!--</ion-item>-->
+  <!--</ion-list>-->
+
+
+  <!--<ion-card>-->
+    <!--<ion-item>-->
+      <!--&lt;!&ndash;<ion-icon name="md-cube" item-left></ion-icon>&ndash;&gt;-->
+      <!--<ion-thumbnail item-left>-->
+        <!--&lt;!&ndash;<div *ngIf="response.latest_event == thumbName">&ndash;&gt;-->
+          <!--&lt;!&ndash;<ion-item *ngFor="let thumb of thumbnails"> </ion-item>&ndash;&gt;-->
+          <!--&lt;!&ndash;<img [src]="thumbImage" />&ndash;&gt;-->
+          <!--&lt;!&ndash;<ion-item>{{thumb}}</ion-item>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--<div >-->
+        <!--<img src="{{aWorkingThumb}}" >-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<div *ngIf="response.latest_event == 'delivered'">&ndash;&gt;-->
+          <!--&lt;!&ndash;<img src="assets/img/Loaded Onto Vessel.png" />&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--</ion-thumbnail>-->
+      <!--<h2> Container:<strong> {{ response.container_number }} </strong> </h2>-->
+    <!--</ion-item>-->
+    <!--<ion-card-content>-->
+      <!--<ion-list>-->
+        <!--<ion-item text-wrap>-->
+          <!--<div>-->
+            <!--<p>-->
+              <!--&lt;!&ndash;<strong> Container Number: </strong>  {{ response.container_number }}&ndash;&gt;-->
+              <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+              <!--<strong> Equipment Type: </strong> {{ response.equipment_type.name }}, {{ response.equipment_type.code }}-->
+              <!--<br/>-->
+              <!--<strong> Latest Event: </strong> {{ response.latest_event }}-->
+              <!--<br/>-->
+              <!--<strong> ETA: </strong> {{ response.dates.vessel_arrived?.eta }}-->
+              <!--<br/>-->
+              <!--<strong> ATA: </strong> {{ response.dates.vessel_arrived?.ata }} </p>-->
+          <!--</div>-->
+        <!--</ion-item>-->
+        <!--<ion-item>-->
+          <!--&lt;!&ndash;<ion-thumbnail item-left>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div *ngIf="response.latest_event == 'delivered'">&ndash;&gt;-->
+            <!--&lt;!&ndash;<img src="assets/img/Loaded Onto Vessel.png" />&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+          <!--&lt;!&ndash;</ion-thumbnail>&ndash;&gt;-->
+        <!--</ion-item>-->
+      <!--</ion-list>-->
+    <!--</ion-card-content>-->
+  <!--</ion-card>-->
 
 </ion-content>

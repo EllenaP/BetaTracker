@@ -1,21 +1,43 @@
 <ion-header>
-
   <ion-navbar>
-
     <!-- Menu button-->
     <ion-buttons start>
       <button ion-button icon-only menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
-
     </ion-buttons>
-
     <ion-title>Tracking Detail</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-
+  <!-- Responsive JSON card, image not responsive.-->
+  <ion-card>
+    <ion-item>
+      <ion-thumbnail item-left>
+        <div *ngIf="response.latest_event == 'delivered'">
+          <img src="assets/img/Loaded Onto Vessel.png" />
+        </div>
+      </ion-thumbnail>
+      <h2> Container:<strong> {{ response.container_number }} </strong> </h2>
+    </ion-item>
+    <ion-card-content>
+      <ion-list>
+        <ion-item text-wrap>
+          <div>
+            <p>
+              <!--<strong> Container Number: </strong>  {{ response.container_number }}-->
+              <!--<br/>-->
+              <strong> Equipment Type: </strong> {{ response.equipment_type.name }}, {{ response.equipment_type.code }}
+              <br/>
+              <strong> Latest Event: </strong> {{ response.latest_event }}
+              <br/>
+              <strong> ETA: </strong> {{ response.dates.vessel_arrived?.eta }}
+              <br/>
+              <strong> ATA: </strong> {{ response.dates.vessel_arrived?.ata }} </p>
+          </div>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

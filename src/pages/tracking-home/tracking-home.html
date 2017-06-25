@@ -1,5 +1,4 @@
 <ion-header>
-
   <ion-navbar>
     <!-- Menu button-->
     <ion-buttons start>
@@ -7,15 +6,13 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-
     <ion-title>Tracking Home</ion-title>
   </ion-navbar>
 
+
+  <!-- Status buttons to me made reactive, concertina style or similar to display information when clicked.-->
 </ion-header>
-
-
 <ion-content padding>
-
   <button ion-button color="assertive" block large icon-left >
     <ion-icon name="alert"></ion-icon>
     Late Shipment - 3
@@ -26,22 +23,22 @@
     Alerts - 4
   </button>
 
-  <button ion-button color="balanced" block large icon-left >
+  <button ion-button color="balanced" block large icon-left (click)="onSchedule()">
     <ion-icon name="checkmark-circle"></ion-icon>
     On Schedule - 4
   </button>
 
-  <ion-card id="summary-card22">
+
+  <!-- Static demo card-->
+  <ion-card>
     <ion-list>
-      <ion-item color="none" id="summary-list-item9">
-        <ion-icon name="boat" item-left></ion-icon>
+      <ion-item>
+        <ion-icon name="boat" item-left ></ion-icon>
         CMA CGM JULES VERNE
       </ion-item>
-      <!--<div style="width:100%;height:220px;margin:0px 0px;line-height:250px;background-color:#e8ebef;text-align:center;">-->
-      <!--<i class="icon ion-image" style="font-size:64px;color:#888;vertical-align:middle;"></i>-->
-      <!--</div>-->
-      <ion-item id="summary-list-item-container4">
-        <div id="summary-markdown4" class="show-list-numbers-and-dots">
+
+      <ion-item>
+        <div>
           <p>
             <strong>Deployed</strong>: 15/5/2017
             <br />
@@ -55,6 +52,5 @@
       </ion-item>
     </ion-list>
   </ion-card>
-
 
 </ion-content>
