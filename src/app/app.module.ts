@@ -11,6 +11,7 @@ import {SupplyChainManagementPage} from "../pages/supply-chain-management/supply
 import {TabsPage} from "../pages/tabs/tabs";
 import {TrackingDetailPage} from "../pages/tracking-detail/tracking-detail";
 import {TrackingHomePage} from "../pages/tracking-home/tracking-home";
+import { AppConfig }    from '../config/app.config';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {TrackingHomePage} from "../pages/tracking-home/tracking-home";
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AppConfig
   ]
 })
 export class AppModule {}

@@ -3,9 +3,7 @@ import {MenuController, NavController, Platform} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {TabsPage} from "../pages/tabs/tabs";
-import {SupplyChainManagementPage} from "../pages/supply-chain-management/supply-chain-management";
-import {ContactPage} from "../pages/contact/contact";
-import {JsonTestPage} from "../pages/json-test/json-test";
+import { AppConfig } from '../config/app.config';
 
 @Component({
   templateUrl: 'app.html'
@@ -20,9 +18,12 @@ export class MyApp {
   constructor(platform: Platform,
               statusBar: StatusBar,
               splashScreen: SplashScreen,
-              public menuCtrl: MenuController
+              public menuCtrl: MenuController,
+              public appConfig: AppConfig
               ) {
 
+
+    console.log('AppConfig', this.appConfig);
 
     this.pages = [
       {title: 'Tracking', component: TabsPage, index: 0},
