@@ -12,6 +12,7 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {TrackingDetailPage} from "../pages/tracking-detail/tracking-detail";
 import {TrackingHomePage} from "../pages/tracking-home/tracking-home";
 import {HttpModule} from "@angular/http";
+import { AppConfig }    from '../config/app.config';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {HttpModule} from "@angular/http";
     StatusBar,
     SplashScreen,
     HttpModule,
+    AppConfig,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
