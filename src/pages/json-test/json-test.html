@@ -12,7 +12,7 @@
 
 
 <ion-content padding>
-
+<!-- SEGMENT STUFF -->
     <ion-segment [(ngModel)]="status" color="warrantColour">
       <ion-segment-button value="On Schedule" color="balanced">
         On Schedule
@@ -27,82 +27,85 @@
 
 <br/>
 
-    <div [ngSwitch]="status">
-      <ion-list *ngSwitchCase="'On Schedule'">
-        <ion-item text-wrap>
-          <ion-thumbnail item-start>
-            <img src="assets/img/Delivered.png">
-          </ion-thumbnail>
-          <h2><strong>{{response.container_number}}</strong></h2>
-          <p>
-            <!--<strong> Container Number: </strong>  {{ response.container_number }}-->
-            <!--<br/>-->
-            <strong> Equipment Type: </strong> {{ response.equipment_type.name }}, {{ response.equipment_type.code }}
-            <br/>
-            <strong> Latest Event: </strong> {{ response.latest_event }}
-            <br/>
-            <strong> ETA: </strong> {{ response.dates.vessel_arrived?.eta }}
-            <br/>
-            <strong> ATA: </strong> {{ response.dates.vessel_arrived?.ata }} </p>
-        </ion-item>
-      </ion-list>
-    </div>
+  <!-- SEGMENT SWITCH -->
+  <ion-list [virtualScroll]="apiResponse.data" >
+    <ion-item-divider *virtualHeader="let header">
+      Sausage: {{header.event_type}}
+    </ion-item-divider>
 
-<br/>
-  <!--<ion-list>-->
-    <!--<ion-list-header>-->
-      <!--Ionic 2 Accordion Example.-->
-    <!--</ion-list-header>-->
-    <!--<ion-item padding color="balanced" *ngFor="let d of data" (click)="toggleDetails(d)"><ion-icon color="primary" item-right [name]="d.icon"></ion-icon>-->
-      <!--{{d.title}}-->
-      <!--<div *ngIf="d.showDetails">{{d.details}}</div>-->
+  <ion-item-sliding *virtualItem="let api" #slidingItem>
+  <button ion-item text-wrap (click)="goToVesselDetail()">
+  <!--<ion-item text-wrap>-->
+  <ion-thumbnail item-left>
+  <ion-img [src]="bookingImages[api?.event_type?.id]"></ion-img>
+  </ion-thumbnail>
+  <h2><strong>{{api?.vehicle_name || "No Data"}}</strong></h2>
+  <p><strong>Container:</strong> {{api?.container_no || "No Data"}}</p>
+  <p><strong>Status:</strong> {{api?.event_type.description || "No Data"}}</p>
+  <p><strong>PO:</strong> {{api?.purchase_order_reference || "No Data"}}</p>
+  <p><strong>Sender:</strong> {{api?.sender || "No Data"}}</p>
+  <p><strong>Carrier Booking Ref:</strong> {{api.carrier_booking_reference || "No Data"}}</p>
+  <p><strong>ID:</strong> {{api.event_type.id || "No Data"}}</p>
+  </button>
     <!--</ion-item>-->
+
+  <!-- slidingItem closes the slider after pressing favourite. -->
+  <ion-item-options>
+  <button ion-button color="energized" (click)="addToFavourites(slidingItem)">
+  Favorite
+  </button>
+  </ion-item-options>
+  </ion-item-sliding>
+  </ion-list>
+
+  <!--&lt;!&ndash; SEGMENT SWITCH &ndash;&gt;-->
+  <!--<ion-list [virtualScroll]="bookerResponse.data" >-->
+    <!--<ion-item-sliding *virtualItem="let booker" #slidingItem>-->
+      <!--<ion-item text-wrap>-->
+        <!--<ion-thumbnail item-left>-->
+          <!--<ion-img [src]="bookingImages[booker?.event_type?.id]"></ion-img>-->
+        <!--</ion-thumbnail>-->
+        <!--<h2><strong>{{booker?.vehicle_name || "No Data"}}</strong></h2>-->
+        <!--<p><strong>Container:</strong> {{booker?.container_no || "No Data"}}</p>-->
+        <!--<p><strong>Status:</strong> {{booker?.event_type.description || "No Data"}}</p>-->
+        <!--<p><strong>PO:</strong> {{booker?.purchase_order_reference || "No Data"}}</p>-->
+        <!--<p><strong>Sender:</strong> {{booker?.sender || "No Data"}}</p>-->
+        <!--<p><strong>Carrier Booking Ref:</strong> {{booker.carrier_booking_reference || "No Data"}}</p>-->
+        <!--<p><strong>ID:</strong> {{booker.event_type.id || "No Data"}}</p>-->
+      <!--</ion-item>-->
+
+      <!--&lt;!&ndash; slidingItem closes the slider after pressing favourite. &ndash;&gt;-->
+      <!--<ion-item-options>-->
+        <!--<button ion-button color="energized" (click)="addToFavourites(slidingItem)">-->
+          <!--Favorite-->
+        <!--</button>-->
+      <!--</ion-item-options>-->
+    <!--</ion-item-sliding>-->
   <!--</ion-list>-->
 
+        <br/>
+      <!--<ion-list *ngSwitchCase="'On Schedule'" [virtualScroll]="bookerResponse">-->
+        <!--<ion-item-sliding *virtualItem="let booker" #slidingItem>-->
 
-  <!--<ion-card>-->
-    <!--<ion-item>-->
-      <!--&lt;!&ndash;<ion-icon name="md-cube" item-left></ion-icon>&ndash;&gt;-->
-      <!--<ion-thumbnail item-left>-->
-        <!--&lt;!&ndash;<div *ngIf="response.latest_event == thumbName">&ndash;&gt;-->
-          <!--&lt;!&ndash;<ion-item *ngFor="let thumb of thumbnails"> </ion-item>&ndash;&gt;-->
-          <!--&lt;!&ndash;<img [src]="thumbImage" />&ndash;&gt;-->
-          <!--&lt;!&ndash;<ion-item>{{thumb}}</ion-item>&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-        <!--<div >-->
-        <!--<img src="{{aWorkingThumb}}" >-->
-        <!--</div>-->
-        <!--&lt;!&ndash;<div *ngIf="response.latest_event == 'delivered'">&ndash;&gt;-->
-          <!--&lt;!&ndash;<img src="assets/img/Loaded Onto Vessel.png" />&ndash;&gt;-->
-        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--</ion-thumbnail>-->
-      <!--<h2> Container:<strong> {{ response.container_number }} </strong> </h2>-->
-    <!--</ion-item>-->
-    <!--<ion-card-content>-->
-      <!--<ion-list>-->
-        <!--<ion-item text-wrap>-->
-          <!--<div>-->
-            <!--<p>-->
-              <!--&lt;!&ndash;<strong> Container Number: </strong>  {{ response.container_number }}&ndash;&gt;-->
-              <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-              <!--<strong> Equipment Type: </strong> {{ response.equipment_type.name }}, {{ response.equipment_type.code }}-->
-              <!--<br/>-->
-              <!--<strong> Latest Event: </strong> {{ response.latest_event }}-->
-              <!--<br/>-->
-              <!--<strong> ETA: </strong> {{ response.dates.vessel_arrived?.eta }}-->
-              <!--<br/>-->
-              <!--<strong> ATA: </strong> {{ response.dates.vessel_arrived?.ata }} </p>-->
-          <!--</div>-->
-        <!--</ion-item>-->
-        <!--<ion-item>-->
-          <!--&lt;!&ndash;<ion-thumbnail item-left>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div *ngIf="response.latest_event == 'delivered'">&ndash;&gt;-->
-            <!--&lt;!&ndash;<img src="assets/img/Loaded Onto Vessel.png" />&ndash;&gt;-->
-            <!--&lt;!&ndash;</div>&ndash;&gt;-->
-          <!--&lt;!&ndash;</ion-thumbnail>&ndash;&gt;-->
-        <!--</ion-item>-->
+          <!--<ion-item>-->
+          <!--<ion-thumbnail item-left>-->
+          <!--<img [src]="bookingImages[booker?.event_type?.id]">-->
+          <!--</ion-thumbnail>-->
+          <!--<h2><strong>{{booker?.vehicle_name}}</strong></h2>-->
+          <!--<p><strong>Container:</strong> {{booker?.container_no}}</p>-->
+          <!--<p><strong> PO:</strong> {{booker?.purchase_order_reference}}</p>-->
+          <!--<p><strong>ID:</strong> {{booker?.event_type?.id}}</p>-->
+          <!--</ion-item>-->
+
+          <!--&lt;!&ndash; slidingItem closes the slider after pressing favourite. &ndash;&gt;-->
+          <!--<ion-item-options>-->
+            <!--<button ion-button color="energized" (click)="addToFavourites(slidingItem)">-->
+              <!--Favorite-->
+            <!--</button>-->
+          <!--</ion-item-options>-->
+        <!--</ion-item-sliding>-->
       <!--</ion-list>-->
-    <!--</ion-card-content>-->
-  <!--</ion-card>-->
+
+<br/>
 
 </ion-content>

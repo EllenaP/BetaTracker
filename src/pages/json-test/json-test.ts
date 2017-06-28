@@ -1,65 +1,106 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, Platform,} from 'ionic-angular';
+import {AlertController, IonicPage, ItemSliding, NavController, NavParams, Platform,} from 'ionic-angular';
 import {Http, RequestOptions, Headers} from "@angular/http";
 import 'rxjs/Rx';
+import {AppConfig} from "../../config/app.config";
+import {TrackingDetailPage} from "../tracking-detail/tracking-detail";
+
+
+
 
 
 @IonicPage()
 @Component({
   selector: 'page-json-test',
   templateUrl: 'json-test.html',
-  // styleUrls: ['./src/theme/variables.scss']
 })
 export class JsonTestPage {
+    thumbnails: {
+    'awaiting_collection': string;
+    'container_loaded': string;
+    'arrived_port': string;
+    'vessel_departed': string;
+    'vessel_loaded': string;
+    'vessel_change': string;
+    'vessel_arrived': string;
+    'vessel_unloaded': string;
+    'departed_port': string;
+    'delivered': string;
+    'eta_changed': string;
+  };
+
+    bookingImages: {
+        'I': string;
+        'VA': string;
+        'UV': string;
+        'OA': string;
+        'D': string;
+        'AE': string;
+        'CD': string;
+        'VD': string;
+    };
+
   // Segment variables
   status: string = "On Schedule";
-  // isAndroid: boolean = false;
-
-  aWorkingThumb: any;
-
-  // Array for accordion display
-  data: Array<{title: string, details: string, icon: string, showDetails: boolean}> = [];
 
 
-  thumbnails: Array<{ thumbName: string, thumbImage: any }>;
+  containerVar: any;
+  urlVar: string;
+  urlEndVar: string;
 
-  response: any;
-  options: RequestOptions;
-
-  // containerBarStatus = [];
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: Http, platform: Platform) {
-      // Segment
-      // this.isAndroid = platform.is('android');
+    apiResponse: any;
+    response: any;
+    bookerResponse: any;
+    options: RequestOptions;
 
 
-    // For loop for accordion display
-    // for(let i = 0; i < 3; i++ ){
-      this.data.push({
-        title: 'On Schedule',
-        details: 'Something something containers',
-        icon: 'ios-add-circle-outline',
-        showDetails: false
-      });
-    // }
+  constructor(
+      public navCtrl: NavController,
+      public navParams: NavParams,
+      public http: Http, platform: Platform,
+      public alertCtrl: AlertController,
+      public appConfig: AppConfig
+  ) {
 
-    this.aWorkingThumb = 'src/assets/img/Delivered.png';
 
-    this.thumbnails = [
-      {thumbName: 'Arrived At Port', thumbImage: 'src/assets/img/arrived at port of loading.png'},
-      {thumbName: 'Awaiting Collection', thumbImage: 'src/assets/img/Awaiting Collection.png'},
-      {thumbName: 'Container Loaded', thumbImage: 'src/assets/img/Container Loaded.png'},
-      {thumbName: 'Delayed', thumbImage: 'src/assets/img/Delayed In Port.png'},
-      {thumbName: 'delivered', thumbImage: 'src/assets/img/Delivered.png'},
-      {thumbName: 'Loaded Onto Vessel', thumbImage: 'src/assets/img/Loaded Onto Vessel.png'},
-      {thumbName: 'Vessel Arrived', thumbImage: 'src/assets/img/Vessel Arrived.png'}
-    ];
+    this.thumbnails = {
+      'awaiting_collection': 'assets/img/awaiting_collection.png',
+      'container_loaded': 'assets/img/container_loaded.png',
+      'arrived_port': 'assets/img/arrived_port.png',
+      'vessel_departed': 'assets/img/vessel_departed.png',
+      'vessel_loaded': 'assets/img/vessel_loaded.png',
+      'vessel_change': 'assets/img/vessel_change.png',
+      'vessel_arrived': 'assets/img/vessel_arrived.png',
+      'vessel_unloaded': 'assets/img/vessel_unloaded.png',
+      'departed_port': 'assets/img/departed_port.png',
+      'delivered': 'assets/img/delivered.png',
+      'eta_changed': 'assets/img/eta_changed.png',
+};
+
+      this.bookingImages = {
+          'I': 'assets/img/vessel_loaded.png',
+          'VA': 'assets/img/vessel_arrived.png',
+          'UV': 'assets/img/vessel_unloaded.png',
+          'OA': 'assets/img/departed_port.png',
+          'D': 'assets/img/delivered.png',
+          'AE': 'assets/img/vessel_loaded.png',
+          'CD': 'assets/img/vessel_loaded.png',
+          'VD': 'assets/img/vessel_departed.png'
+      };
     // this.containerBarStatus = ['alert', 'positive', 'negative'];
 
     this.response = {
       'equipment_type': {},
       //figure out objects inside objects
       'dates': {}
+    };
+
+    this.bookerResponse = {
+        'data': []
+    };
+
+    this.apiResponse = {
+        'data': []
     };
 
     this.http = http
@@ -75,28 +116,64 @@ export class JsonTestPage {
           this.response = data
         },
         (err) =>  console.log(err),
-        () => { console.log("success")  }
+        () => { console.log("tracker success")  }
     );
+
+      this.getCarrierBooking().subscribe(
+          (data) => {
+              console.log('CarrierBooking', data)
+              this.bookerResponse = data
+          },
+          (err) =>  console.log(err),
+          () => { console.log("booker success")  }
+      );
+
+      this.getApiTestURL().subscribe(
+          (data) => {
+              console.log('API test', data)
+              this.apiResponse = data
+          },
+          (err) =>  console.log(err),
+          () => { console.log("API test")  }
+      );
   }
 
   // Toggle for accordion display
-  toggleDetails(data) {
-    if (data.showDetails) {
-      data.showDetails = false;
-      data.icon = 'ios-add-circle-outline';
-    } else {
-      data.showDetails = true;
-      data.icon = 'ios-remove-circle-outline';
-    }
-  }
+  // toggleDetails(data) {
+  //   if (data.showDetails) {
+  //     data.showDetails = false;
+  //     data.icon = 'ios-add-circle-outline';
+  //   } else {
+  //     data.showDetails = true;
+  //     data.icon = 'ios-remove-circle-outline';
+  //   }
+  // }
 
+  // This API is for a single timeline response for a given container.
   getTimeline() {
-    return this.http.get("http://ingot-api-php7-refactor.eu-west-1.elasticbeanstalk.com/api/v1/tracking/containers/CGMU6528805/timeline", this.options)
+    return this.http.get("http://ingot-api-php7-refactor.eu-west-1.elasticbeanstalk.com/api/v1/tracking/containers/OOCU6798795/timeline", this.options)
         .map(res =>  res.json())
   }
+  // This API is for all latest containers with a limit of 50
+  getCarrierBooking(){
+      return this.http.get("http://ingot-api-php7-refactor.eu-west-1.elasticbeanstalk.com/api/v1/tracking/search/latest?limit=50&offset=0&paginated=1&sortDir=desc&sortField=event_datetime", this.options)
+          .map(res => res.json())
+  }
 
+    getApiTestURL(){
+        return this.http.get(this.appConfig.apiUrl, this.options)
+            .map(res => res.json())
+    }
 
+    goToVesselDetail(){
+        this.navCtrl.push(TrackingDetailPage, {
+            name: 'Hotdog'
+        });
+    }
 
+    addToFavourites(slidingItem: ItemSliding) {
+      slidingItem.close();
+    }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad JsonTestPage');
