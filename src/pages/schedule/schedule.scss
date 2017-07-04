@@ -1,0 +1,26 @@
+$categories: (
+ awaiting_collection: #AE1706,
+ container_loaded: #1f45bf,
+ arrived_port: #fe3822,
+ vessel_departed: #FD8B2D,
+ vessel_loaded: #FED035,
+ vessel_change: #69BB7B,
+ vessel_arrived: #BCB91C,
+ vessel_unloaded: #8C684E,
+ departed_port: #3BC7C4,
+ delivered: #e39fd9,
+ eta_changed: #6600CC,
+);
+
+@function auxiliary-categories() {
+  @return map-remove($categories);
+}
+
+page-schedule {
+  @each $track, $value in auxiliary-categories() {
+   ion-item-sliding[track=#{$track}] ion-label {
+     border-left: 2px solid $value;
+     padding-left: 10px;
+   }
+  }
+}

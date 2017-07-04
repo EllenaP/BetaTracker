@@ -1,7 +1,6 @@
-<ion-tabs [selectedIndex]="myIndex">
-  <ion-tab [root]="trackingHomePage" tabIcon="list" tabTitle="Tracking"></ion-tab>
-  <ion-tab [root]="supplyChainManagementPage" tabTitle="SCM" tabIcon="link"></ion-tab>
-  <ion-tab [root]="contactPage" tabTitle="Contact" tabIcon="contacts"></ion-tab>
-  <ion-tab [root]="jsonTestPage" tabTitle="JSON" tabIcon="md-pizza"></ion-tab>
-
+<ion-tabs [selectedIndex]="mySelectedIndex">
+  <ion-tab [root]="tab1Root" tabTitle="Tracking" tabIcon="calendar"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Speakers" tabIcon="contacts"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Map" tabIcon="map"></ion-tab>
+  <ion-tab [root]="tab4Root" tabTitle="Contact" tabIcon="information-circle"></ion-tab>
 </ion-tabs>

@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+      <ion-segment-button value="all">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Favorites
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentFilter()">
+        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateSchedule()"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list #scheduleList [hidden]="shownSessions === 0">
+
+    <ion-item-group *ngFor="let divider of apiResponse.data">
+
+      <ion-item-divider >
+        <ion-label>
+          <h2><strong> Sausage </strong></h2>
+        </ion-label>
+      </ion-item-divider>
+
+      <!-- Sliding Element-->
+      <!-- Lazy loading with Virtual Scroll is not currently possible due to whitespace bug -->
+      <!-- Slider very unresponsive on iOS due to heavy loading of content. -->
+      <ion-item-sliding *ngFor="let api of apiResponse.data" #slidingItem >
+        <!-- Go to session-detail.html page -->
+        <button ion-item text-wrap (click)="goToSessionDetail(session)">
+          <!-- Thumbnail -->
+          <ion-thumbnail item-left>
+            <img [src]="bookingImages[api?.event_type?.label]">
+          </ion-thumbnail>
+          <!-- Repeated Content -->
+          <h2><strong>{{api?.vehicle_name}}</strong></h2>
+          <p><strong>Container:</strong> {{api?.container_no}}</p>
+          <p><strong>Status:</strong> {{api?.event_type.description}}</p>
+          <p><strong>PO:</strong> {{api?.purchase_order_reference}}</p>
+          <p><strong>Sender:</strong> {{api?.sender}}</p>
+          <p><strong>Carrier Booking Ref:</strong> {{api.carrier_booking_reference}}</p>
+          <p><strong>ID:</strong> {{api.event_type.id}}</p>
+          <p><strong>Label:</strong> {{api.event_type.label}}</p>
+
+        </button>
+
+        <!--<ion-item-sliding *ngFor="let booker of bookerResponse" #slidingItem >-->
+          <!--<button ion-item text-wrap>-->
+            <!--<ion-thumbnail item-left>-->
+              <!--<img [src]="bookingImages[booker?.event_type?.id]">-->
+            <!--</ion-thumbnail>-->
+            <!--<h3><strong>Container:</strong> {{booker?.container_no}}</h3>-->
+            <!--<p><strong>PO:</strong> {{booker?.purchase_order_reference}}</p>-->
+            <!--<p><strong>Carrier Booking Ref:</strong> {{booker?.carrier_booking_reference}}  </p>-->
+            <!--<p><strong>Bill Lading Ref:</strong> {{booker?.bill_lading_reference}}</p>-->
+            <!--<p><strong>Equipment Type:</strong> {{booker?.equipment_type}}</p>-->
+            <!--<p><strong>Current Location:</strong> {{booker?.event_location?.location_name}}</p>-->
+            <!--&lt;!&ndash;<p><strong>ID:</strong> {{booker?.event_type?.id}}</p>&ndash;&gt;-->
+          <!--</button>-->
+
+        <!--<button ion-item >-->
+          <!--<h2><strong>{{response.container_number}}</strong></h2>-->
+            <!--<ion-thumbnail item-left *ngIf="response.latest_event">-->
+              <!--<img [src]="thumbnails[response.latest_event]">-->
+            <!--</ion-thumbnail>-->
+          <!--<p>-->
+            <!--&lt;!&ndash;<strong> Container Number: </strong>  {{ response.container_number }}&ndash;&gt;-->
+            <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+            <!--<strong> Equipment Type: </strong> {{ response.equipment_type.name }}, {{ response.equipment_type.code }}-->
+            <!--<br/>-->
+            <!--<strong> Latest Event: </strong> {{ response.latest_event | capitalize }}-->
+            <!--<br/>-->
+            <!--<strong> ETA: </strong> {{ response.dates.vessel_arrived?.eta | date: 'medium' }}-->
+            <!--<br/>-->
+            <!--<strong> ATA: </strong> {{ response.dates.vessel_arrived?.ata | date: 'medium'  }} </p>-->
+        <!--</button>-->
+
+        <ion-item-options>
+          <button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
+            Favorite
+          </button>
+          <button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
+            Remove
+          </button>
+        </ion-item-options>
+
+      </ion-item-sliding>
+
+    </ion-item-group>
+
+  </ion-list>
+
+  <ion-list-header [hidden]="shownSessions > 0">
+      No Sessions Found
+  </ion-list-header>
+
+</ion-content>

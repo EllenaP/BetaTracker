@@ -1,23 +1,25 @@
 import { Component } from '@angular/core';
-import {TrackingHomePage} from "../tracking-home/tracking-home";
-import {SupplyChainManagementPage} from "../supply-chain-management/supply-chain-management";
-import {ContactPage} from "../contact/contact";
-import {JsonTestPage} from "../json-test/json-test";
+
 import { NavParams } from 'ionic-angular';
 
+import { AboutPage } from '../about/about';
+import { MapPage } from '../map/map';
+import { SchedulePage } from '../schedule/schedule';
+import { SpeakerListPage } from '../speaker-list/speaker-list';
+
 @Component({
-  templateUrl: 'tabs.html',
+  templateUrl: 'tabs.html'
 })
 export class TabsPage {
-  trackingHomePage: any  = TrackingHomePage;
-  supplyChainManagementPage: any  = SupplyChainManagementPage;
-  contactPage: any  = ContactPage;
-  jsonTestPage: any  = JsonTestPage;
-  myIndex: any = 0;
+  // set the root pages for each tab
+  tab1Root: any = SchedulePage;
+  tab2Root: any = SpeakerListPage;
+  tab3Root: any = MapPage;
+  tab4Root: any = AboutPage;
+  mySelectedIndex: number;
 
   constructor(navParams: NavParams) {
-    // set the default index to 0, the first tab
-    this.myIndex = 0;
-    if (navParams.data.index) this.myIndex = navParams.data.index;
+    this.mySelectedIndex = navParams.data.tabIndex || 0;
   }
+
 }

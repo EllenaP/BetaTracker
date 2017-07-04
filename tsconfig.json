@@ -4,6 +4,7 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+//    "noImplicitAny": true,
     "lib": [
       "dom",
       "es2015"
@@ -12,7 +13,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "es5",
-    "baseUrl":  "./src",
+    "baseUrl": "./src",
     "paths": {
       "@app/config": ["config/config"]
     }
